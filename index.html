@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>吴师兄学算法</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="看动画，学算法，认准吴师兄">
+    
+    <link rel="preload" href="/assets/css/0.styles.e2ae7eca.css" as="style"><link rel="preload" href="/assets/js/app.aed78d38.js" as="script"><link rel="preload" href="/assets/js/2.a9354c1e.js" as="script"><link rel="preload" href="/assets/js/7.b265156b.js" as="script"><link rel="prefetch" href="/assets/js/3.c4f5f1c6.js"><link rel="prefetch" href="/assets/js/4.23df146b.js"><link rel="prefetch" href="/assets/js/5.8e1a03df.js"><link rel="prefetch" href="/assets/js/6.27888615.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.e2ae7eca.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" aria-current="page" class="home-link router-link-exact-active router-link-active"><!----> <span class="site-name">吴师兄学算法</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><p><img src="https://article-1257126549.cos.ap-guangzhou.myqcloud.com/blog/iu38j.png" alt=""></p> <h2 id="题目描述"><a href="#题目描述" class="header-anchor">#</a> 题目描述</h2> <p>给你单链表的头指针 head 和两个整数 left 和 right ，其中 left &lt;= right 。请你反转从位置 left 到位置 right 的链表节点，返回 <strong>反转后的链表</strong> 。</p> <p><img src="https://article-1257126549.cos.ap-guangzhou.myqcloud.com/blog/dsddu.jpg" alt=""></p> <h2 id="吴师兄的参考思路"><a href="#吴师兄的参考思路" class="header-anchor">#</a> 吴师兄的参考思路</h2> <p>1、构建一个虚拟节点，让它指向原链表的头节点。</p> <p>2、设置两个指针，pre 指针指向以虚拟头节点为链表的头部位置，cur 指针指向原链表的头部位置。</p> <p>3、让着两个指针向前移动，直到 pre 指向了第一个要反转的节点的前面那个节点，而 cur 指向了第一个要反转的节点。</p> <p>4、开始指向翻转操作</p> <ul><li>1）、设置临时变量 temp，temp 是 cur 的 next 位置，保存当前需要翻转节点的后面的节点，我们需要交换 temp 和 cur</li> <li>2）、让 cur 的 next 位置变成 temp 的下一个节点</li> <li>3）、让 temp 的 next 位置变成 cur</li> <li>4）、让 pre 的 next 位置变成 temp</li></ul> <h2 id="吴师兄的参考代码"><a href="#吴师兄的参考代码" class="header-anchor">#</a> 吴师兄的参考代码</h2> <h3 id="_1、java-代码"><a href="#_1、java-代码" class="header-anchor">#</a> 1、Java 代码</h3> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 登录 AlgoMooc 官网获取更多算法图解</span>
+<span class="token comment">// https://www.algomooc.com</span>
+<span class="token comment">// 作者：程序员吴师兄</span>
+<span class="token comment">// 代码有看不懂的地方一定要私聊咨询吴师兄呀</span>
+<span class="token comment">// 反转链表 II （ LeetCode 92 ）：https://leetcode-cn.com/problems/reverse-linked-list-ii</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token class-name">ListNode</span> <span class="token function">reverseBetween</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token comment">// 一开始设置一个虚拟节点，它的值为 -1，它的值可以设置为任何的数，因为我们根本不需要使用它的值</span>
+        <span class="token comment">// 设置虚拟节点的目的是为了让原链表中所有节点就都可以按照统一的方式进行翻转</span>
+        <span class="token comment">// 比如如果翻转的区间包含了原链表中的第一个位置，那么如果不设置 dummy</span>
+        <span class="token comment">// 在翻转的过程中需要设置其它的临时变量来保持第一位置节点的指针</span>
+        <span class="token comment">// 具体可以通过动画来理解</span>
+        <span class="token class-name">ListNode</span> dummy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 让虚拟节点指向原链表的头部</span>
+        dummy<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        
+        <span class="token comment">// 设置一个指针，指向以虚拟头节点为链表的头部位置</span>
+        <span class="token class-name">ListNode</span> pre <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+
+        <span class="token comment">// 设置一个指针，指向原链表的头部位置</span>
+
+        <span class="token class-name">ListNode</span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+
+
+        <span class="token comment">// 从虚拟头节点出发，pre 走 left - 1 步找到需要翻转的左区间</span>
+        <span class="token comment">// for 循环结束后，pre 的右节点是需要翻转的节点</span>
+        <span class="token comment">// for 循环结束后，cur 指向的就是需要翻转的节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> left <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+           
+
+            <span class="token comment">// pre 不断的向右移动，直到走到翻转的左区间为止</span>
+            pre <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token comment">// cur 不断的向右移动，找到了需要翻转的第一个节点</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 开始翻转这些节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> right <span class="token operator">-</span> left<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+            <span class="token comment">// 设置临时变量，保存当前需要翻转节点的后面的节点</span>
+            <span class="token class-name">ListNode</span> temp <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+
+            <span class="token comment">// 这个时候，让 temp 和 cur 两个节点翻转一下</span>
+            <span class="token comment">// 比如，一开始 i = 0 的时候 cur 为 2， temp 为 3</span>
+            <span class="token comment">// 执行完下面的代码，如果原链表是</span>
+            <span class="token comment">// 1 --&gt; 2 --&gt; 3 --&gt; 4 --&gt; 5</span>
+            <span class="token comment">// 变成了</span>
+            <span class="token comment">// 1 --&gt; 3 --&gt; 2 --&gt; 4 --&gt; 5</span>
+            
+            <span class="token comment">// cur 的下一节点是等号右侧的值</span>
+            <span class="token comment">// i = 0 的时候， cur 为 2，cur.next.next 的值是 4</span>
+            <span class="token comment">// 所以，这行代码让 cur 的下一节点不是 3 ，而是 4 </span>
+            <span class="token comment">// 2 --&gt; 4</span>
+            <span class="token comment">// 等价于 cur.next = temp.next</span>
+            cur<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+
+            <span class="token comment">// temp 的下一节点是等号右侧的值</span>
+            <span class="token comment">// i = 0 的时候， temp 为 3，pre 为 1，pre 下一节点的值是 2</span>
+            <span class="token comment">// 所以，这行代码让 temp 的下一节点不是 4 ，而是 2 </span>
+            <span class="token comment">// 3 --&gt; 2</span>
+            temp<span class="token punctuation">.</span>next <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+
+            <span class="token comment">// pre 的下一节点是等号右侧的值</span>
+            <span class="token comment">// i = 0 的时候， pre 为 1，temp 的值是 3</span>
+            <span class="token comment">// 所以，这行代码让 pre 的下一节点为 3</span>
+            <span class="token comment">// 1 --&gt; 3</span>
+          
+            pre<span class="token punctuation">.</span>next <span class="token operator">=</span>temp<span class="token punctuation">;</span>
+
+            <span class="token comment">// i = 0 结束之后，链表变成了</span>
+            <span class="token comment">// 1 --&gt; 3 --&gt; 2 --&gt; 4 --&gt; 5</span>
+           
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 最后返回虚拟头节点的下一个节点，因为虚拟节点不在链表中</span>
+        <span class="token keyword">return</span> dummy<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_2、c-代码"><a href="#_2、c-代码" class="header-anchor">#</a> 2、C++ 代码</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token comment">// 登录 AlgoMooc 官网获取更多算法图解</span>
+<span class="token comment">// https://www.algomooc.com</span>
+<span class="token comment">// 作者：程序员吴师兄</span>
+<span class="token comment">// 代码有看不懂的地方一定要私聊咨询吴师兄呀</span>
+<span class="token comment">// 反转链表 II （ LeetCode 92 ）：https://leetcode-cn.com/problems/reverse-linked-list-ii</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    ListNode<span class="token operator">*</span> <span class="token function">reverseBetween</span><span class="token punctuation">(</span>ListNode<span class="token operator">*</span> head<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 一开始设置一个虚拟节点，它的值为 -1，它的值可以设置为任何的数，因为我们根本不需要使用它的值</span>
+        <span class="token comment">// 设置虚拟节点的目的是为了让原链表中所有节点就都可以按照统一的方式进行翻转</span>
+        <span class="token comment">// 比如如果翻转的区间包含了原链表中的第一个位置，那么如果不设置 dummy</span>
+        <span class="token comment">// 在翻转的过程中需要设置其它的临时变量来保持第一位置节点的指针</span>
+        <span class="token comment">// 具体可以通过动画来理解</span>
+        ListNode <span class="token operator">*</span>dummy <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">ListNode</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 让虚拟节点指向原链表的头部</span>
+        dummy<span class="token operator">-&gt;</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        
+        <span class="token comment">// 设置一个指针，指向以虚拟头节点为链表的头部位置</span>
+        ListNode <span class="token operator">*</span>pre <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+
+        <span class="token comment">// 设置一个指针，指向原链表的头部位置</span>
+        ListNode <span class="token operator">*</span>cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+
+
+        <span class="token comment">// 从虚拟头节点出发，pre 走 left - 1 步找到需要翻转的左区间</span>
+        <span class="token comment">// for 循环结束后，pre 的右节点是需要翻转的节点</span>
+        <span class="token comment">// for 循环结束后，cur 指向的就是需要翻转的节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> left <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+           
+            <span class="token comment">// pre 不断的向右移动，直到走到翻转的左区间为止</span>
+            pre <span class="token operator">=</span> pre<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+            <span class="token comment">// cur 不断的向右移动，找到了需要翻转的第一个节点</span>
+            cur <span class="token operator">=</span> cur<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 开始翻转这些节点</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> right <span class="token operator">-</span> left<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+            <span class="token comment">// 设置临时变量，保存当前需要翻转节点的后面的节点</span>
+            ListNode <span class="token operator">*</span>temp <span class="token operator">=</span> cur<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+
+            <span class="token comment">// 这个时候，让 temp 和 cur 两个节点翻转一下</span>
+            <span class="token comment">// 比如，一开始 i = 0 的时候 cur 为 2， temp 为 3</span>
+            <span class="token comment">// 执行完下面的代码，如果原链表是</span>
+            <span class="token comment">// 1 --&gt; 2 --&gt; 3 --&gt; 4 --&gt; 5</span>
+            <span class="token comment">// 变成了</span>
+            <span class="token comment">// 1 --&gt; 3 --&gt; 2 --&gt; 4 --&gt; 5</span>
+            
+            <span class="token comment">// cur 的下一节点是等号右侧的值</span>
+            <span class="token comment">// i = 0 的时候， cur 为 2，cur-&gt;next-&gt;next 的值是 4</span>
+            <span class="token comment">// 所以，这行代码让 cur 的下一节点不是 3 ，而是 4 </span>
+            <span class="token comment">// 2 --&gt; 4</span>
+            <span class="token comment">// 等价于 cur-&gt;next = temp-&gt;next</span>
+            cur<span class="token operator">-&gt;</span>next <span class="token operator">=</span> cur<span class="token operator">-&gt;</span>next<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+
+            <span class="token comment">// temp 的下一节点是等号右侧的值</span>
+            <span class="token comment">// i = 0 的时候， temp 为 3，pre 为 1，pre 下一节点的值是 2</span>
+            <span class="token comment">// 所以，这行代码让 temp 的下一节点不是 4 ，而是 2 </span>
+            <span class="token comment">// 3 --&gt; 2</span>
+            temp<span class="token operator">-&gt;</span>next <span class="token operator">=</span> pre<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+
+            <span class="token comment">// pre 的下一节点是等号右侧的值</span>
+            <span class="token comment">// i = 0 的时候， pre 为 1，temp 的值是 3</span>
+            <span class="token comment">// 所以，这行代码让 pre 的下一节点为 3</span>
+            <span class="token comment">// 1 --&gt; 3</span>
+          
+            pre<span class="token operator">-&gt;</span>next <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+
+            <span class="token comment">// i = 0 结束之后，链表变成了</span>
+            <span class="token comment">// 1 --&gt; 3 --&gt; 2 --&gt; 4 --&gt; 5</span>
+           
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 最后返回虚拟头节点的下一个节点，因为虚拟节点不在链表中</span>
+        <span class="token keyword">return</span> dummy<span class="token operator">-&gt;</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="_3、python-代码"><a href="#_3、python-代码" class="header-anchor">#</a> 3、Python 代码</h3> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 登录 AlgoMooc 官网获取更多算法图解</span>
+<span class="token comment"># https://www.algomooc.com</span>
+<span class="token comment"># 作者：程序员吴师兄</span>
+<span class="token comment"># 代码有看不懂的地方一定要私聊咨询吴师兄呀</span>
+<span class="token comment"># 反转链表 II （ LeetCode 92 ）：https://leetcode-cn.com/problems/reverse-linked-list-ii</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">reverseBetween</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> head<span class="token punctuation">:</span> ListNode<span class="token punctuation">,</span> left<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span> right<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> ListNode<span class="token punctuation">:</span>
+         <span class="token comment"># 一开始设置一个虚拟节点，它的值为 -1，它的值可以设置为任何的数，因为我们根本不需要使用它的值</span>
+        <span class="token comment"># 设置虚拟节点的目的是为了让原链表中所有节点就都可以按照统一的方式进行翻转</span>
+        <span class="token comment"># 比如如果翻转的区间包含了原链表中的第一个位置，那么如果不设置 dummy</span>
+        <span class="token comment"># 在翻转的过程中需要设置其它的临时变量来保持第一位置节点的指针</span>
+        <span class="token comment"># 具体可以通过动画来理解</span>
+        dummy <span class="token operator">=</span>  ListNode<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+        <span class="token comment"># 让虚拟节点指向原链表的头部</span>
+        dummy<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head
+        
+        <span class="token comment"># 设置一个指针，指向以虚拟头节点为链表的头部位置</span>
+        pre <span class="token operator">=</span> dummy
+
+        <span class="token comment"># 设置一个指针，指向原链表的头部位置</span>
+        cur <span class="token operator">=</span> head
+
+
+        <span class="token comment"># 从虚拟头节点出发，pre 走 left - 1 步找到需要翻转的左区间</span>
+        <span class="token comment"># for 循环结束后，pre 的右节点是需要翻转的节点</span>
+        <span class="token comment"># for 循环结束后，cur 指向的就是需要翻转的节点</span>
+        <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>left <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment"># pre 不断的向右移动，直到走到翻转的左区间为止</span>
+            pre <span class="token operator">=</span> pre<span class="token punctuation">.</span><span class="token builtin">next</span>
+            <span class="token comment"># cur 不断的向右移动，找到了需要翻转的第一个节点</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+        <span class="token comment"># 开始翻转这些节点</span>
+        <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>right <span class="token operator">-</span> left<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            
+            <span class="token comment"># 设置临时变量，保存当前需要翻转节点的后面的节点</span>
+            temp <span class="token operator">=</span> cur<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+            <span class="token comment"># 这个时候，让 temp 和 cur 两个节点翻转一下</span>
+            <span class="token comment"># 比如，一开始 i = 0 的时候 cur 为 2， temp 为 3</span>
+            <span class="token comment"># 执行完下面的代码，如果原链表是</span>
+            <span class="token comment"># 1 --&gt; 2 --&gt; 3 --&gt; 4 --&gt; 5</span>
+            <span class="token comment"># 变成了</span>
+            <span class="token comment"># 1 --&gt; 3 --&gt; 2 --&gt; 4 --&gt; 5</span>
+            
+            <span class="token comment"># cur 的下一节点是等号右侧的值</span>
+            <span class="token comment"># i = 0 的时候， cur 为 2，cur.next.next 的值是 4</span>
+            <span class="token comment"># 所以，这行代码让 cur 的下一节点不是 3 ，而是 4 </span>
+            <span class="token comment"># 2 --&gt; 4</span>
+            <span class="token comment"># 等价于 cur.next = temp.next</span>
+            cur<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> cur<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+
+            <span class="token comment"># temp 的下一节点是等号右侧的值</span>
+            <span class="token comment"># i = 0 的时候， temp 为 3，pre 为 1，pre 下一节点的值是 2</span>
+            <span class="token comment"># 所以，这行代码让 temp 的下一节点不是 4 ，而是 2 </span>
+            <span class="token comment"># 3 --&gt; 2</span>
+            temp<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> pre<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+            <span class="token comment"># pre 的下一节点是等号右侧的值</span>
+            <span class="token comment"># i = 0 的时候， pre 为 1，temp 的值是 3</span>
+            <span class="token comment"># 所以，这行代码让 pre 的下一节点为 3</span>
+            <span class="token comment"># 1 --&gt; 3</span>
+          
+            pre<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> temp
+
+            <span class="token comment"># i = 0 结束之后，链表变成了</span>
+            <span class="token comment"># 1 --&gt; 3 --&gt; 2 --&gt; 4 --&gt; 5</span>
+           
+
+        <span class="token comment"># 最后返回虚拟头节点的下一个节点，因为虚拟节点不在链表中</span>
+        <span class="token keyword">return</span> dummy<span class="token punctuation">.</span><span class="token builtin">next</span>
+</code></pre></div><h2 id="end"><a href="#end" class="header-anchor">#</a> END</h2> <p>最后，我也有付费的算法训练营服务，手把手带你通过看动画的形式学会算法，更加细致的讲解 LeetCode 题目。</p> <p><img src="https://files.mdnice.com/user/6131/86f87c31-d945-4f5a-9293-75c297acdd0b.jpg" alt=""></p> <p><strong>目前已经开展了三期，现在已经帮助数百位同学通过看动画的形式找到了学习算法的乐趣，并且彻底掌握了算法面试的高频题，再也不害怕算法面试环节。</strong></p> <p>第四期截止报名时间为 12 月 25 号，想要和吴师兄学好算法进入大厂的同学可以添加我的微信，回复 <strong>999</strong>，解锁更多内容。</p> <p><img src="https://files.mdnice.com/user/6131/5c0528f6-5d90-4c0e-9914-be7e31df2cce.png" alt=""></p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.aed78d38.js" defer></script><script src="/assets/js/2.a9354c1e.js" defer></script><script src="/assets/js/7.b265156b.js" defer></script>
+  </body>
+</html>
